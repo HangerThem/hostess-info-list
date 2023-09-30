@@ -1,22 +1,39 @@
 {
   "name": "hostessinfolist",
   "version": "0.1.0",
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate && prisma db push && prisma db seed"
   },
   "dependencies": {
+    "@prisma/client": "^5.3.1",
     "@types/node": "20.7.1",
     "@types/react": "18.2.23",
     "@types/react-dom": "18.2.8",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
     "eslint": "8.50.0",
     "eslint-config-next": "13.5.3",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^8.5.1",
     "next": "13.5.3",
+    "prisma": "^5.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "styled-components": "^6.0.8",
+    "ts-node": "^10.9.1",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.4",
+    "@types/js-cookie": "^3.0.4",
+    "@types/jsonwebtoken": "^9.0.3"
   }
 }
