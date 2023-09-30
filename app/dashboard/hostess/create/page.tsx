@@ -3,6 +3,8 @@
 import { FormEvent } from "react"
 import { Form, Input, SubmitButton } from "@/styles/loginStyles"
 import AddIcon from "@/icons/add"
+import Link from "next/link"
+import { DashboardButton } from "@/styles/dashboardStyles"
 
 export default function Page() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -62,7 +64,13 @@ export default function Page() {
       <Input type="text" name="hairColor" placeholder="Barva vlasů" />
       <Input type="number" name="height" placeholder="Výška" />
       <Input type="file" name="image" placeholder="Fotka" accept="image/*" />
-      <SubmitButton type="submit" value="Vytvořit" />
+      <div>
+        <SubmitButton type="submit" value="Vytvořit" />
+        <SubmitButton type="reset" value="Resetovat" />
+        <DashboardButton type="button" value="Zpět">
+          <Link href="/dashboard">Zpět</Link>
+        </DashboardButton>
+      </div>
     </Form>
   )
 }

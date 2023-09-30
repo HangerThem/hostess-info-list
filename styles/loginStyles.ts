@@ -8,6 +8,14 @@ export const Form = styled.form`
   height: 97vh;
   gap: 10px;
   margin-top: 20px;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+  }
 `
 
 export const Input = styled.input`
