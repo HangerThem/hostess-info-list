@@ -7,8 +7,14 @@ import {
   HostessContainer,
   HostessImage,
   HostessName,
+  HostessesContainer,
+  DashboardHeader,
+  SearchBar,
+  DashboardButton,
 } from "@/styles/dashboardStyles"
 import Link from "next/link"
+import AddIcon from "@/icons/add"
+import LogoutIcon from "@/icons/logout"
 
 export default function Page() {
   const [hostesses, setHostesses] = useState<Hostess[]>([])
@@ -34,20 +40,30 @@ export default function Page() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      <button onClick={() => fetchHostesses()}>Obnovit</button>
-      <button onClick={() => logout()}>Odhlásit</button>
-      <ul>
+      <DashboardHeader>
+        <h1>HIL - Dashboard</h1>
+        <div>
+          <SearchBar
+            type="text"
+            name="search"
+            placeholder="Hledat"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <DashboardButton onClick={() => logout()}>
+            <LogoutIcon />
+          </DashboardButton>
+          <DashboardButton>
+            <Link href="/dashboard/hostess/create">
+              <AddIcon />
+            </Link>
+          </DashboardButton>
+        </div>
+      </DashboardHeader>
+      <HostessesContainer>
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
-            <input
-              type="text"
-              name="search"
-              placeholder="Hledat"
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
             {hostesses.map((hostess) =>
               hostess.firstName
                 .toLowerCase()
@@ -79,7 +95,7 @@ export default function Page() {
             )}
           </>
         )}
-      </ul>
+      </HostessesContainer>
     </div>
   )
 }

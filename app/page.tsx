@@ -3,6 +3,7 @@
 import { FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { setToken } from "@/lib/auth"
+import { Form, Input, SubmitButton } from "@/styles/loginStyles"
 
 export default function Home() {
   const router = useRouter()
@@ -25,10 +26,11 @@ export default function Home() {
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <input type="text" name="username" placeholder="Uživatelské jméno" />
-      <input type="password" name="password" placeholder="Heslo" />
-      <input type="submit" value="Přihlásit se" />
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <h1>Přihlášení</h1>
+      <Input type="text" name="username" placeholder="Uživatelské jméno" />
+      <Input type="password" name="password" placeholder="Heslo" />
+      <SubmitButton type="submit" value="Přihlásit se" />
+    </Form>
   )
 }

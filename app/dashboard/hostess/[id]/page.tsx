@@ -21,6 +21,7 @@ import CancelIcon from "@/icons/cancel"
 import EditIcon from "@/icons/edit"
 import SaveIcon from "@/icons/save"
 import DeleteIcon from "@/icons/delete"
+import Link from "next/link"
 
 export default function Page({ params }: any) {
   const [hostess, setHostess] = useState<Hostess>()
@@ -98,6 +99,9 @@ export default function Page({ params }: any) {
 
   return (
     <HostessInfoContainer>
+      <Link href="/dashboard" style={{ color: "#000" }}>
+        Zpět
+      </Link>
       <form onSubmit={(e) => handleSubmit(e)}>
         <HostessName>
           {!isEditing ? (

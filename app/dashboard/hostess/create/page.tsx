@@ -1,6 +1,8 @@
 "use client"
 
 import { FormEvent } from "react"
+import { Form, Input, SubmitButton } from "@/styles/loginStyles"
+import AddIcon from "@/icons/add"
 
 export default function Page() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -48,21 +50,19 @@ export default function Page() {
   }
 
   return (
-    <div>
+    <Form onSubmit={handleSubmit}>
       <h1>Vytvořit hostesku</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="text" name="firstName" required placeholder="Jméno" />
-        <input type="text" name="lastName" required placeholder="Příjmení" />
-        <input type="text" name="email" placeholder="Email" />
-        <input type="text" name="phone" placeholder="Telefon" />
-        <input type="text" name="address" placeholder="Adresa" />
-        <input type="text" name="education" placeholder="Vzdělání" />
-        <input type="number" name="age" placeholder="Věk" />
-        <input type="text" name="hairColor" placeholder="Barva vlasů" />
-        <input type="number" name="height" placeholder="Výška" />
-        <input type="file" name="image" placeholder="Fotka" accept="image/*" />
-        <input type="submit" value="Vytvořit" />
-      </form>
-    </div>
+      <Input type="text" name="firstName" required placeholder="Jméno" />
+      <Input type="text" name="lastName" required placeholder="Příjmení" />
+      <Input type="text" name="email" placeholder="Email" />
+      <Input type="text" name="phone" placeholder="Telefon" />
+      <Input type="text" name="address" placeholder="Adresa" />
+      <Input type="text" name="education" placeholder="Vzdělání" />
+      <Input type="number" name="age" placeholder="Věk" />
+      <Input type="text" name="hairColor" placeholder="Barva vlasů" />
+      <Input type="number" name="height" placeholder="Výška" />
+      <Input type="file" name="image" placeholder="Fotka" accept="image/*" />
+      <SubmitButton type="submit" value="Vytvořit" />
+    </Form>
   )
 }
