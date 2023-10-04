@@ -1,3 +1,10 @@
+interface ISearchTerms {
+  ageRange: [number, number]
+  heightRange: [number, number]
+  hairColor: string
+  region: Regions
+}
+
 interface Hostess {
   id?: string
   firstName: string
@@ -10,4 +17,9 @@ interface Hostess {
   hairColor: string
   height: number
   image: string
+}
+
+interface HairColorOption {
+  label: string
+  value: string
 }

@@ -50,17 +50,6 @@ export const HostessesContainer = styled.ul`
   margin-top: 20px;
 `
 
-export const SearchBar = styled.input`
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  width: 100%;
-  max-width: 300px;
-  height: 47.2px;
-`
-
 export const DashboardButton = styled.button`
   padding: 10px;
   border: none;

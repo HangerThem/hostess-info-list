@@ -3,7 +3,7 @@
 import { FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { setToken } from "@/lib/auth"
-import { Form, Input, SubmitButton } from "@/styles/loginStyles"
+import { Form, Input, SubmitButton } from "@/styles/formStyles"
 
 export default function Home() {
   const router = useRouter()

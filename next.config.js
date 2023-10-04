@@ -12,6 +12,6 @@ module.exports = {
     serverActions: true,
   },
   images: {
-    domains: ["i.ibb.co", "localhost"],
+    domains: ["i.ibb.co", "localhost", "via.placeholder.com"],
   },
 }

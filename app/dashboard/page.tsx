@@ -9,17 +9,19 @@ import {
   HostessName,
   HostessesContainer,
   DashboardHeader,
-  SearchBar,
   DashboardButton,
 } from "@/styles/dashboardStyles"
 import Link from "next/link"
 import AddIcon from "@/icons/add"
 import LogoutIcon from "@/icons/logout"
+import Search from "@/components/search"
+import AdvancedSearch from "@/components/advancedSearch"
 
 export default function Page() {
   const [hostesses, setHostesses] = useState<Hostess[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(true)
+  const [advancedSearch, setAdvancedSearch] = useState<boolean>(false)
   const router = useRouter()
 
   const fetchHostesses = async () => {
@@ -38,27 +40,40 @@ export default function Page() {
     router.push("/")
   }
 
+  const handleAdvancedSearch = () => {
+    setAdvancedSearch(!advancedSearch)
+  }
+
   return (
     <div>
       <DashboardHeader>
         <h1>HIL - Dashboard</h1>
         <div>
-          <SearchBar
-            type="text"
-            name="search"
-            placeholder="Hledat"
-            onChange={(e) => setSearchTerm(e.target.value)}
+          <Search
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            settingsAction={handleAdvancedSearch}
           />
-          <DashboardButton onClick={() => logout()}>
+          <DashboardButton onClick={() => logout()} title="Odhlásit se">
             <LogoutIcon />
           </DashboardButton>
-          <DashboardButton>
+          <DashboardButton title="Přidat hostesku">
             <Link href="/dashboard/hostess/create">
               <AddIcon />
             </Link>
           </DashboardButton>
         </div>
       </DashboardHeader>
+      <AdvancedSearch
+        advancedSearch={advancedSearch}
+        searchTerms={{
+          ageRange: [18, 30],
+          heightRange: [160, 180],
+          hairColor: "blonde",
+          region: Regions.Prague,
+        }}
+      />
+
       <HostessesContainer>
         {loading ? (
           <p>Loading...</p>

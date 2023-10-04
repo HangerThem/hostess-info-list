@@ -64,10 +64,10 @@ export async function POST(req: Request) {
       email,
       phone,
       address,
-      age: parseInt(age),
+      age: Number(age),
       education,
       hairColor,
-      height: parseInt(height),
+      height: Number(height),
       image,
     },
   })
