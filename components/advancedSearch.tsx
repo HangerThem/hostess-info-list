@@ -129,6 +129,14 @@ const AdvancedSearch = ({
     })
   }
 
+  const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const city = event.target.value
+    setSearchTerms({
+      ...searchTerms,
+      city,
+    })
+  }
+
   return (
     <div style={{ display: advancedSearch ? "block" : "none" }}>
       <h1>Advanced Search</h1>
@@ -299,6 +307,11 @@ const AdvancedSearch = ({
           isClearable={true}
           placeholder="Kraj"
         />
+      </div>
+      <div>
+        <SearchBarContainer>
+          <SearchBar placeholder="Město" onChange={handleCityChange} />
+        </SearchBarContainer>
       </div>
     </div>
   )

@@ -123,6 +123,7 @@ export default function Page() {
                 const age = hostess.age
                 const height = hostess.height
                 const hairColor = hostess.hairColor
+                const address = hostess.address
                 const region = hostess.region
                 const isAgeInRange =
                   age >= searchTerms.ageRange[0] &&
@@ -133,12 +134,16 @@ export default function Page() {
                 const isHairColorCorrect = searchTerms.hairColor.length
                   ? searchTerms.hairColor.includes(hairColor)
                   : true
+                const isAdressCorrect = searchTerms.city
+                  ? address.toLowerCase().includes(searchTerms.city)
+                  : true
                 const isRegionCorrect = searchTerms.region.length
                   ? searchTerms.region.includes(region)
                   : true
                 return isAgeInRange &&
                   isHeightInRange &&
                   isHairColorCorrect &&
+                  isAdressCorrect &&
                   isRegionCorrect ? (
                   <li key={hostess.id}>
                     <Link href={`/dashboard/hostess/${hostess.id}`}>
