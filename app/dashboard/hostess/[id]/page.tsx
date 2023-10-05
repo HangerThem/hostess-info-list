@@ -207,6 +207,36 @@ export default function Page({ params }: any) {
               </HostessDetailValue>
             </HostessDetailRow>
             <HostessDetailRow>
+              <HostessDetailLabel>Adresa:</HostessDetailLabel>
+              <HostessDetailValue>
+                {!isEditing ? (
+                  hostess.address
+                ) : (
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Adresa"
+                    defaultValue={hostess.address}
+                  />
+                )}
+              </HostessDetailValue>
+            </HostessDetailRow>
+            <HostessDetailRow>
+              <HostessDetailLabel>Kraj:</HostessDetailLabel>
+              <HostessDetailValue>
+                {!isEditing ? (
+                  hostess.region
+                ) : (
+                  <input
+                    type="text"
+                    name="region"
+                    placeholder="Kraj"
+                    defaultValue={hostess.region}
+                  />
+                )}
+              </HostessDetailValue>
+            </HostessDetailRow>
+            <HostessDetailRow>
               <HostessDetailLabel>Barva vlasů:</HostessDetailLabel>
               <HostessDetailValue>
                 {!isEditing ? (

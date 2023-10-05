@@ -15,30 +15,28 @@ import Link from "next/link"
 import { DashboardButton } from "@/styles/dashboardStyles"
 import Select from "react-select"
 import UploadIcon from "@/icons/upload"
+import { Regions, HairColor } from "@/lib/enums"
+import CancelIcon from "@/icons/cancel"
 
 export default function Page() {
   const router = useRouter()
   const [fileName, setFileName] = useState<string | undefined>(
     "Soubor nenahrán"
   )
-  const HairColor: HairColorOption[] = [
-    {
-      value: "bruneta",
-      label: "Bruneta",
-    },
-    {
-      value: "blondýna",
-      label: "Blondýna",
-    },
-    {
-      value: "černovlasá",
-      label: "Černovlasá",
-    },
-    {
-      value: "zrzka",
-      label: "Zrzka",
-    },
-  ]
+  const HairColorOptions: SelectOption[] = Object.values(HairColor).map(
+    (color) => {
+      return {
+        value: color,
+        label: color,
+      }
+    }
+  )
+  const RegionOptions: SelectOption[] = Object.values(Regions).map((region) => {
+    return {
+      value: region,
+      label: region,
+    }
+  })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -95,6 +93,12 @@ export default function Page() {
     router.push(`/dashboard/hostess/${id}`)
   }
 
+  const handleRemoveFile = () => {
+    const fileInput = document.getElementById("image") as HTMLInputElement
+    fileInput.value = ""
+    setFileName("Soubor nenahrán")
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <h1>Vytvořit hostesku</h1>
@@ -103,11 +107,9 @@ export default function Page() {
       <Input type="text" name="email" placeholder="Email" />
       <Input type="text" name="phone" placeholder="Telefon" />
       <Input type="text" name="address" placeholder="Adresa" />
-      <Input type="text" name="education" placeholder="Vzdělání" />
-      <Input type="number" name="age" placeholder="Věk" />
       <Select
-        options={HairColor}
-        name="hairColor"
+        options={RegionOptions}
+        name="region"
         styles={{
           control: (provided) => ({
             ...provided,
@@ -118,6 +120,7 @@ export default function Page() {
             height: "40px",
             fontFamily: "var(--font-mono)",
             backgroundColor: "#3e3e3e",
+            color: "#fff",
           }),
           option: (provided, state) => ({
             ...provided,
@@ -131,14 +134,71 @@ export default function Page() {
             ...provided,
             fontFamily: "var(--font-mono)",
             backgroundColor: "#3e3e3e",
+            color: "#fff",
           }),
           singleValue: (provided) => ({
             ...provided,
             fontFamily: "var(--font-mono)",
             color: "#fff",
           }),
+          placeholder: (provided) => ({
+            ...provided,
+            fontFamily: "var(--font-mono)",
+            color: "#989898",
+          }),
+          input: (provided) => ({
+            ...provided,
+            color: "#fff",
+          }),
+        }}
+        isSearchable={true}
+        isClearable={true}
+        placeholder="Kraj"
+      />
+      <Input type="text" name="education" placeholder="Vzdělání" />
+      <Input type="number" name="age" placeholder="Věk" max="100" min="18" />
+      <Select
+        options={HairColorOptions}
+        name="hairColor"
+        styles={{
+          control: (provided) => ({
+            ...provided,
+            border: "none",
+            borderRadius: "5px",
+            fontSize: "16px",
+            width: "300px",
+            height: "40px",
+            fontFamily: "var(--font-mono)",
+            backgroundColor: "#3e3e3e",
+            color: "#fff",
+          }),
+          option: (provided, state) => ({
+            ...provided,
+            fontFamily: "var(--font-mono)",
+            color: "#fff",
+            backgroundColor:
+              state.isSelected || state.isFocused ? "#2d2d2d" : "#3e3e3e",
+            cursor: state.isSelected ? "default" : "pointer",
+          }),
+          menu: (provided) => ({
+            ...provided,
+            fontFamily: "var(--font-mono)",
+            backgroundColor: "#3e3e3e",
+            color: "#fff",
+          }),
+          singleValue: (provided) => ({
+            ...provided,
+            fontFamily: "var(--font-mono)",
+            color: "#fff",
+          }),
+          placeholder: (provided) => ({
+            ...provided,
+            fontFamily: "var(--font-mono)",
+            color: "#a0a0a0",
+          }),
         }}
         isSearchable={false}
+        isClearable={true}
         placeholder="Barva vlasů"
       />
       <Input type="number" name="height" placeholder="Výška" />
@@ -156,6 +216,9 @@ export default function Page() {
           <UploadIcon />
         </FileInputLabel>
         <span>{fileName}</span>
+        <div onClick={() => handleRemoveFile()}>
+          <CancelIcon />
+        </div>
       </FileInputContainer>
       <FormButtons>
         <SubmitButton type="submit" value="Vytvořit" />

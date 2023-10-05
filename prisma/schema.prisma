@@ -23,6 +23,7 @@ model Hostess {
   phone     String
   age       Int
   address   String
+  region    String
   education String
   height    Int
   hairColor String

@@ -29,8 +29,33 @@ export const Input = styled.input`
   background-color: #3e3e3e;
   font-family: var(--font-mono);
 
+  &::placeholder {
+    color: #fff;
+  }
+
   &:focus {
     outline: 1px solid #0070f3;
+  }
+
+  &[type="number"] {
+    webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+
+    &[type="number"] {
+      -moz-appearance: number-input;
+    }
+
+    &[type="number"]::-webkit-inner-spin-button,
+    &[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 `
 
@@ -63,6 +88,7 @@ export const FileInputContainer = styled.div`
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   span {
     padding: 10px;
@@ -70,6 +96,18 @@ export const FileInputContainer = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+  }
+
+  div {
+    height: 24px;
+    margin-right: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.125s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 `
 

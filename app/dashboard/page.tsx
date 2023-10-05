@@ -16,12 +16,21 @@ import AddIcon from "@/icons/add"
 import LogoutIcon from "@/icons/logout"
 import Search from "@/components/search"
 import AdvancedSearch from "@/components/advancedSearch"
+import { Regions } from "@/lib/enums"
+import { ISearchTerms } from "@/interface/ISearchTerms"
 
 export default function Page() {
   const [hostesses, setHostesses] = useState<Hostess[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(true)
   const [advancedSearch, setAdvancedSearch] = useState<boolean>(false)
+  const [searchTerms, setSearchTerms] = useState<ISearchTerms>({
+    ageRange: [18, 100],
+    heightRange: [130, 200],
+    hairColor: [],
+    region: [],
+    city: "",
+  })
   const router = useRouter()
 
   const fetchHostesses = async () => {
@@ -40,8 +49,12 @@ export default function Page() {
     router.push("/")
   }
 
-  const handleAdvancedSearch = () => {
+  const handleAdvancedSearchToggle = () => {
     setAdvancedSearch(!advancedSearch)
+  }
+
+  const handleSearchTermsChange = (e: any) => {
+    setSearchTerms({ ...searchTerms, ...e })
   }
 
   return (
@@ -52,7 +65,7 @@ export default function Page() {
           <Search
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
-            settingsAction={handleAdvancedSearch}
+            settingsAction={handleAdvancedSearchToggle}
           />
           <DashboardButton onClick={() => logout()} title="Odhlásit se">
             <LogoutIcon />
@@ -66,12 +79,8 @@ export default function Page() {
       </DashboardHeader>
       <AdvancedSearch
         advancedSearch={advancedSearch}
-        searchTerms={{
-          ageRange: [18, 30],
-          heightRange: [160, 180],
-          hairColor: "blonde",
-          region: Regions.Prague,
-        }}
+        searchTerms={searchTerms}
+        setSearchTerms={handleSearchTermsChange}
       />
 
       <HostessesContainer>
@@ -79,35 +88,75 @@ export default function Page() {
           <p>Loading...</p>
         ) : (
           <>
-            {hostesses.map((hostess) =>
-              hostess.firstName
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-              hostess.lastName
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-              (
-                hostess.firstName.toLowerCase() +
-                " " +
-                hostess.lastName.toLowerCase()
-              ).includes(searchTerm.toLowerCase()) ? (
-                <li key={hostess.id}>
-                  <Link href={`/dashboard/hostess/${hostess.id}`}>
-                    <HostessContainer>
-                      <HostessImage
-                        src={hostess.image}
-                        width={200}
-                        height={200}
-                        alt={hostess.firstName + " " + hostess.lastName}
-                      />
-                      <HostessName>
-                        {hostess.firstName} {hostess.lastName}
-                      </HostessName>
-                    </HostessContainer>
-                  </Link>
-                </li>
-              ) : null
-            )}
+            {!advancedSearch &&
+              hostesses.map((hostess) =>
+                hostess.firstName
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                hostess.lastName
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                (
+                  hostess.firstName.toLowerCase() +
+                  " " +
+                  hostess.lastName.toLowerCase()
+                ).includes(searchTerm.toLowerCase()) ? (
+                  <li key={hostess.id}>
+                    <Link href={`/dashboard/hostess/${hostess.id}`}>
+                      <HostessContainer>
+                        <HostessImage
+                          src={hostess.image}
+                          width={200}
+                          height={200}
+                          alt={hostess.firstName + " " + hostess.lastName}
+                        />
+                        <HostessName>
+                          {hostess.firstName} {hostess.lastName}
+                        </HostessName>
+                      </HostessContainer>
+                    </Link>
+                  </li>
+                ) : null
+              )}
+            {advancedSearch &&
+              hostesses.map((hostess) => {
+                const age = hostess.age
+                const height = hostess.height
+                const hairColor = hostess.hairColor
+                const region = hostess.region
+                const isAgeInRange =
+                  age >= searchTerms.ageRange[0] &&
+                  age <= searchTerms.ageRange[1]
+                const isHeightInRange =
+                  height >= searchTerms.heightRange[0] &&
+                  height <= searchTerms.heightRange[1]
+                const isHairColorCorrect = searchTerms.hairColor.length
+                  ? searchTerms.hairColor.includes(hairColor)
+                  : true
+                const isRegionCorrect = searchTerms.region.length
+                  ? searchTerms.region.includes(region)
+                  : true
+                return isAgeInRange &&
+                  isHeightInRange &&
+                  isHairColorCorrect &&
+                  isRegionCorrect ? (
+                  <li key={hostess.id}>
+                    <Link href={`/dashboard/hostess/${hostess.id}`}>
+                      <HostessContainer>
+                        <HostessImage
+                          src={hostess.image}
+                          width={200}
+                          height={200}
+                          alt={hostess.firstName + " " + hostess.lastName}
+                        />
+                        <HostessName>
+                          {hostess.firstName} {hostess.lastName}
+                        </HostessName>
+                      </HostessContainer>
+                    </Link>
+                  </li>
+                ) : null
+              })}
           </>
         )}
       </HostessesContainer>
