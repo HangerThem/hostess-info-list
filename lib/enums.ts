@@ -19,5 +19,5 @@ export enum HairColor {
   Blond = "Blondýna",
   Brunette = "Bruneta",
   Red = "Zrzka",
-  Black = "Černovláska",
+  Black = "Černovlasá",
 }

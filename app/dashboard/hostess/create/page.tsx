@@ -103,7 +103,7 @@ export default function Page() {
     <Form onSubmit={handleSubmit}>
       <h1>Vytvořit hostesku</h1>
       <Input type="text" name="firstName" required placeholder="Jméno" />
-      <Input type="text" name="lastName" required placeholder="Příjmení" />
+      <Input type="text" name="lastName" placeholder="Příjmení" />
       <Input type="text" name="email" placeholder="Email" />
       <Input type="text" name="phone" placeholder="Telefon" />
       <Input type="text" name="address" placeholder="Adresa" />
