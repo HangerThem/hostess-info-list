@@ -26,7 +26,7 @@ export default function Page() {
   const [fileName, setFileName] = useState<string | undefined>(
     "Soubor nenahrán"
   )
-  const [uploadCSV, setUploadCSV] = useState<boolean>(true)
+  const [uploadCSV, setUploadCSV] = useState<boolean>(false)
   const [CSVName, setCSVName] = useState<string | undefined>("Soubor nenahrán")
 
   const HairColorOptions: SelectOption[] = Object.values(HairColor).map(
@@ -49,6 +49,10 @@ export default function Page() {
       label: gender,
     }
   })
+
+  const handleIsUploadCSV = () => {
+    setUploadCSV(!uploadCSV)
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -147,6 +151,9 @@ export default function Page() {
       <FormContainer>
         <Form onSubmit={handleSubmit}>
           <h1>Nahrát CSV</h1>
+          <FormButton type="button" onClick={() => handleIsUploadCSV()}>
+            Zpět
+          </FormButton>
           <FormColumns>
             <FormColumn>
               <FileInputContainer>
@@ -184,6 +191,9 @@ export default function Page() {
     <FormContainer>
       <Form onSubmit={handleSubmit}>
         <h1>Přidat záznam</h1>
+        <FormButton type="button" onClick={() => handleIsUploadCSV()}>
+          Nahrát CSV
+        </FormButton>
         <FormColumns>
           <FormColumn>
             <Input type="text" name="firstName" required placeholder="Jméno" />

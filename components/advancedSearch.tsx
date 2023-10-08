@@ -2,7 +2,7 @@
 
 import { ISearchTerms } from "@/interface/ISearchTerms"
 import { useState } from "react"
-import { Region, HairColor } from "@/lib/enums"
+import { Region, HairColor, Gender } from "@/lib/enums"
 import {
   RangeContainer,
   RangeProgress,
@@ -10,6 +10,7 @@ import {
 } from "./advancedSearchStyles"
 import { SearchBar, SearchBarContainer } from "./searchStyles"
 import Select from "react-select"
+import { selectStyles } from "@/styles/selectStyles"
 
 interface AdvancedSearchProps {
   advancedSearch: boolean
@@ -37,6 +38,12 @@ const AdvancedSearch = ({
     return {
       value: region,
       label: region,
+    }
+  })
+  const genderOptions: SelectOption[] = Object.values(Gender).map((gender) => {
+    return {
+      value: gender,
+      label: gender,
     }
   })
 
@@ -129,6 +136,13 @@ const AdvancedSearch = ({
     })
   }
 
+  const handleGenderChange = (event: any) => {
+    setSearchTerms({
+      ...searchTerms,
+      gender: event.map((option: SelectOption) => option.value),
+    })
+  }
+
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const city = event.target.value
     setSearchTerms({
@@ -211,43 +225,7 @@ const AdvancedSearch = ({
           onChange={(e: any) => {
             handleHairColorChange(e)
           }}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "16px",
-              width: "300px",
-              height: "40px",
-              fontFamily: "var(--font-mono)",
-              backgroundColor: "#3e3e3e",
-              color: "#fff",
-            }),
-            option: (provided, state) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              color: "#fff",
-              backgroundColor:
-                state.isSelected || state.isFocused ? "#2d2d2d" : "#3e3e3e",
-              cursor: state.isSelected ? "default" : "pointer",
-            }),
-            menu: (provided) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              backgroundColor: "#3e3e3e",
-              color: "#fff",
-            }),
-            singleValue: (provided) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              color: "#fff",
-            }),
-            placeholder: (provided) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              color: "#a0a0a0",
-            }),
-          }}
+          styles={selectStyles}
           isSearchable={false}
           isClearable={true}
           placeholder="Barva vlasů"
@@ -262,50 +240,25 @@ const AdvancedSearch = ({
           onChange={(e: any) => {
             handleRegionChange(e)
           }}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "16px",
-              width: "300px",
-              height: "40px",
-              fontFamily: "var(--font-mono)",
-              backgroundColor: "#3e3e3e",
-              color: "#fff",
-            }),
-            option: (provided, state) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              color: "#fff",
-              backgroundColor:
-                state.isSelected || state.isFocused ? "#2d2d2d" : "#3e3e3e",
-              cursor: state.isSelected ? "default" : "pointer",
-            }),
-            menu: (provided) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              backgroundColor: "#3e3e3e",
-              color: "#fff",
-            }),
-            singleValue: (provided) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              color: "#fff",
-            }),
-            placeholder: (provided) => ({
-              ...provided,
-              fontFamily: "var(--font-mono)",
-              color: "#989898",
-            }),
-            input: (provided) => ({
-              ...provided,
-              color: "#fff",
-            }),
-          }}
+          styles={selectStyles}
           isSearchable={true}
           isClearable={true}
           placeholder="Kraj"
+        />
+      </div>
+      <div>
+        <h2>Pohlaví:</h2>
+        <Select
+          options={genderOptions}
+          name="gender"
+          isMulti={true}
+          onChange={(e: any) => {
+            handleGenderChange(e)
+          }}
+          styles={selectStyles}
+          isSearchable={false}
+          isClearable={true}
+          placeholder="Pohlaví"
         />
       </div>
       <div>

@@ -6,4 +6,5 @@ export interface ISearchTerms {
   hairColor: string[]
   region: string[]
   city: string
+  gender: string
 }

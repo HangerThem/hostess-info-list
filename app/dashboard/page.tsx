@@ -16,7 +16,6 @@ import AddIcon from "@/icons/add"
 import LogoutIcon from "@/icons/logout"
 import Search from "@/components/search"
 import AdvancedSearch from "@/components/advancedSearch"
-import { Region } from "@/lib/enums"
 import { ISearchTerms } from "@/interface/ISearchTerms"
 
 export default function Page() {
@@ -30,6 +29,7 @@ export default function Page() {
     hairColor: [],
     region: [],
     city: "",
+    gender: "",
   })
   const router = useRouter()
 
@@ -137,12 +137,15 @@ export default function Page() {
                 const hairColor = hostess.hairColor
                 const address = hostess.address
                 const region = hostess.region
+                const gender = hostess.gender
                 const isAgeInRange =
                   age >= searchTerms.ageRange[0] &&
                   age <= searchTerms.ageRange[1]
                 const isHeightInRange =
-                  height >= searchTerms.heightRange[0] &&
-                  height <= searchTerms.heightRange[1]
+                  (height >= searchTerms.heightRange[0] &&
+                    height <= searchTerms.heightRange[1]) ||
+                  // Temporary fix for hostesses without height from import of CSV
+                  height === 0
                 const isHairColorCorrect = searchTerms.hairColor.length
                   ? searchTerms.hairColor.includes(hairColor)
                   : true
@@ -152,11 +155,15 @@ export default function Page() {
                 const isRegionCorrect = searchTerms.region.length
                   ? searchTerms.region.includes(region)
                   : true
-                return isAgeInRange &&
-                  isHeightInRange &&
-                  isHairColorCorrect &&
+                const isGenderCorrect = searchTerms.gender.length
+                  ? searchTerms.gender.includes(gender)
+                  : true
+                return isGenderCorrect &&
                   isAdressCorrect &&
-                  isRegionCorrect ? (
+                  isAgeInRange &&
+                  isRegionCorrect &&
+                  isHairColorCorrect &&
+                  isHeightInRange ? (
                   <li key={hostess.id}>
                     <Link href={`/dashboard/hostess/${hostess.id}`}>
                       <HostessContainer>
