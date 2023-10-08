@@ -1,6 +1,8 @@
 // import { PrismaClient } from "@prisma/client"
 // import { hashPassword } from "@/utils/hashPassword"
 
+// const prisma = new PrismaClient()
+
 export async function POST(req: Request) {
   return new Response(
     JSON.stringify({
@@ -13,7 +15,6 @@ export async function POST(req: Request) {
     }
   )
   // const { username, password } = await req.json()
-  // const prisma = new PrismaClient()
 
   // const user = await prisma.user.create({
   //   data: {
