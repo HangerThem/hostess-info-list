@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client"
 import { getTokenFromServer } from "@/lib/serverAuth"
 import { verifyToken } from "@/lib/token"
 
+const prisma = new PrismaClient()
+
 // API endpoint to retrieve specific hostess by id
 export async function GET(req: Request) {
   const id = req.url.split("/")[6]
@@ -18,7 +20,6 @@ export async function GET(req: Request) {
       headers: { "content-type": "application/json" },
     })
   }
-  const prisma = new PrismaClient()
   const hostess = await prisma.hostess.findUnique({
     where: { id: id },
   })
@@ -46,7 +47,6 @@ export async function PUT(req: Request) {
       headers: { "content-type": "application/json" },
     })
   }
-  const prisma = new PrismaClient()
   const {
     firstName,
     lastName,
@@ -98,7 +98,6 @@ export async function DELETE(req: Request) {
       headers: { "content-type": "application/json" },
     })
   }
-  const prisma = new PrismaClient()
   const hostess = await prisma.hostess.delete({
     where: { id: id },
   })
