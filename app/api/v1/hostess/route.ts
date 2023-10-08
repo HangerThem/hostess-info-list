@@ -43,8 +43,6 @@ export async function POST(req: Request) {
       headers: { "content-type": "application/json" },
     })
   }
-  const prisma = new PrismaClient()
-
   const {
     firstName,
     lastName,
