@@ -10,6 +10,7 @@ interface Hostess {
   education: string
   hairColor: string
   height: number
+  gender: string
   image: string
 }
 

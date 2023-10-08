@@ -1,4 +1,4 @@
-import { Regions } from "@/lib/enums"
+import { Region } from "@/lib/enums"
 
 export interface ISearchTerms {
   ageRange: [number, number]

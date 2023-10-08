@@ -16,7 +16,7 @@ import AddIcon from "@/icons/add"
 import LogoutIcon from "@/icons/logout"
 import Search from "@/components/search"
 import AdvancedSearch from "@/components/advancedSearch"
-import { Regions } from "@/lib/enums"
+import { Region } from "@/lib/enums"
 import { ISearchTerms } from "@/interface/ISearchTerms"
 
 export default function Page() {
@@ -36,6 +36,18 @@ export default function Page() {
   const fetchHostesses = async () => {
     const res = await fetch("/api/v1/hostess")
     const data = await res.json()
+    data.sort((a: Hostess, b: Hostess) => {
+      const nameA = a.firstName.toUpperCase()
+      const nameB = b.firstName.toUpperCase()
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+
+      return 0
+    })
     setHostesses(data)
     setLoading(false)
   }
@@ -70,11 +82,11 @@ export default function Page() {
           <DashboardButton onClick={() => logout()} title="Odhlásit se">
             <LogoutIcon />
           </DashboardButton>
-          <DashboardButton title="Přidat hostesku">
-            <Link href="/dashboard/hostess/create">
+          <Link href="/dashboard/hostess/create">
+            <DashboardButton title="Přidat hostesku">
               <AddIcon />
-            </Link>
-          </DashboardButton>
+            </DashboardButton>
+          </Link>
         </div>
       </DashboardHeader>
       <AdvancedSearch

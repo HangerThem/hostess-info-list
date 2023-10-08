@@ -1,4 +1,4 @@
-export enum Regions {
+export enum Region {
   Prague = "Praha",
   CentralBohemia = "Středočeský kraj",
   SouthBohemia = "Jihočeský kraj",
@@ -20,4 +20,11 @@ export enum HairColor {
   Brunette = "Bruneta",
   Red = "Zrzka",
   Black = "Černovlasá",
+  Other = "Jiná",
+}
+
+export enum Gender {
+  Female = "Žena",
+  Male = "Muž",
+  Other = "Jiné",
 }

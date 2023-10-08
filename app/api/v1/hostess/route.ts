@@ -55,6 +55,7 @@ export async function POST(req: Request) {
     education,
     hairColor,
     height,
+    gender,
     image,
   } = await req.json()
 
@@ -70,6 +71,7 @@ export async function POST(req: Request) {
       education,
       hairColor,
       height: Number(height),
+      gender,
       image,
     },
   })

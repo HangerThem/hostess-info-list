@@ -2,7 +2,7 @@
 
 import { ISearchTerms } from "@/interface/ISearchTerms"
 import { useState } from "react"
-import { Regions, HairColor } from "@/lib/enums"
+import { Region, HairColor } from "@/lib/enums"
 import {
   RangeContainer,
   RangeProgress,
@@ -33,7 +33,7 @@ const AdvancedSearch = ({
       }
     }
   )
-  const regionOptions: SelectOption[] = Object.values(Regions).map((region) => {
+  const regionOptions: SelectOption[] = Object.values(Region).map((region) => {
     return {
       value: region,
       label: region,

@@ -2,20 +2,23 @@
 
 import { FormEvent, useState } from "react"
 import {
+  FormContainer,
   Form,
   Input,
-  SubmitButton,
+  FormButton,
   FormButtons,
+  FormColumns,
+  FormColumn,
   FileInputContainer,
   FileInput,
   FileInputLabel,
 } from "@/styles/formStyles"
+import { selectStyles } from "@/styles/selectStyles"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { DashboardButton } from "@/styles/dashboardStyles"
 import Select from "react-select"
 import UploadIcon from "@/icons/upload"
-import { Regions, HairColor } from "@/lib/enums"
+import { Region, HairColor, Gender } from "@/lib/enums"
 import CancelIcon from "@/icons/cancel"
 
 export default function Page() {
@@ -23,6 +26,9 @@ export default function Page() {
   const [fileName, setFileName] = useState<string | undefined>(
     "Soubor nenahrán"
   )
+  const [uploadCSV, setUploadCSV] = useState<boolean>(true)
+  const [CSVName, setCSVName] = useState<string | undefined>("Soubor nenahrán")
+
   const HairColorOptions: SelectOption[] = Object.values(HairColor).map(
     (color) => {
       return {
@@ -31,16 +37,47 @@ export default function Page() {
       }
     }
   )
-  const RegionOptions: SelectOption[] = Object.values(Regions).map((region) => {
+  const RegionOptions: SelectOption[] = Object.values(Region).map((region) => {
     return {
       value: region,
       label: region,
+    }
+  })
+  const GenderOptions: SelectOption[] = Object.values(Gender).map((gender) => {
+    return {
+      value: gender,
+      label: gender,
     }
   })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
+    if (uploadCSV) {
+      const csvFile = (
+        e.currentTarget.elements.namedItem("csv") as HTMLInputElement
+      ).files?.[0]
+      if (csvFile) {
+        formData.set("csv", csvFile)
+      }
+      try {
+        const csvResponse = await fetch("/api/v1/upload/csv", {
+          method: "POST",
+          body: formData,
+        })
+        if (csvResponse.ok) {
+          console.log("CSV uploaded successfully")
+        } else {
+          console.error("CSV upload failed")
+          return
+        }
+      } catch (error) {
+        console.error("Error:", error)
+        return
+      }
+      router.push("/dashboard")
+      return
+    }
     const formDataImage = new FormData()
     let id: string
     let hostessData: Hostess
@@ -99,134 +136,123 @@ export default function Page() {
     setFileName("Soubor nenahrán")
   }
 
+  const handleRemoveCSV = () => {
+    const fileInput = document.getElementById("csv") as HTMLInputElement
+    fileInput.value = ""
+    setCSVName("Soubor nenahrán")
+  }
+
+  if (uploadCSV) {
+    return (
+      <FormContainer>
+        <Form onSubmit={handleSubmit}>
+          <h1>Nahrát CSV</h1>
+          <FormColumns>
+            <FormColumn>
+              <FileInputContainer>
+                <FileInput
+                  type="file"
+                  name="csv"
+                  id="csv"
+                  placeholder="CSV"
+                  onChange={(e) => setCSVName(e.currentTarget.files?.[0].name)}
+                  accept=".csv"
+                />
+                <FileInputLabel htmlFor="csv">
+                  Vybrat
+                  <UploadIcon />
+                </FileInputLabel>
+                <span>{CSVName}</span>
+                <div onClick={() => handleRemoveCSV()}>
+                  <CancelIcon />
+                </div>
+              </FileInputContainer>
+            </FormColumn>
+          </FormColumns>
+          <FormButtons>
+            <FormButton type="submit">Nahrát</FormButton>
+            <FormButton type="button" value="Zpět">
+              <Link href="/dashboard">Zpět</Link>
+            </FormButton>
+          </FormButtons>
+        </Form>
+      </FormContainer>
+    )
+  }
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <h1>Vytvořit hostesku</h1>
-      <Input type="text" name="firstName" required placeholder="Jméno" />
-      <Input type="text" name="lastName" placeholder="Příjmení" />
-      <Input type="text" name="email" placeholder="Email" />
-      <Input type="text" name="phone" placeholder="Telefon" />
-      <Input type="text" name="address" placeholder="Adresa" />
-      <Select
-        options={RegionOptions}
-        name="region"
-        styles={{
-          control: (provided) => ({
-            ...provided,
-            border: "none",
-            borderRadius: "5px",
-            fontSize: "16px",
-            width: "300px",
-            height: "40px",
-            fontFamily: "var(--font-mono)",
-            backgroundColor: "#3e3e3e",
-            color: "#fff",
-          }),
-          option: (provided, state) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            color: "#fff",
-            backgroundColor:
-              state.isSelected || state.isFocused ? "#2d2d2d" : "#3e3e3e",
-            cursor: state.isSelected ? "default" : "pointer",
-          }),
-          menu: (provided) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            backgroundColor: "#3e3e3e",
-            color: "#fff",
-          }),
-          singleValue: (provided) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            color: "#fff",
-          }),
-          placeholder: (provided) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            color: "#989898",
-          }),
-          input: (provided) => ({
-            ...provided,
-            color: "#fff",
-          }),
-        }}
-        isSearchable={true}
-        isClearable={true}
-        placeholder="Kraj"
-      />
-      <Input type="text" name="education" placeholder="Vzdělání" />
-      <Input type="number" name="age" placeholder="Věk" max="100" min="18" />
-      <Select
-        options={HairColorOptions}
-        name="hairColor"
-        styles={{
-          control: (provided) => ({
-            ...provided,
-            border: "none",
-            borderRadius: "5px",
-            fontSize: "16px",
-            width: "300px",
-            height: "40px",
-            fontFamily: "var(--font-mono)",
-            backgroundColor: "#3e3e3e",
-            color: "#fff",
-          }),
-          option: (provided, state) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            color: "#fff",
-            backgroundColor:
-              state.isSelected || state.isFocused ? "#2d2d2d" : "#3e3e3e",
-            cursor: state.isSelected ? "default" : "pointer",
-          }),
-          menu: (provided) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            backgroundColor: "#3e3e3e",
-            color: "#fff",
-          }),
-          singleValue: (provided) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            color: "#fff",
-          }),
-          placeholder: (provided) => ({
-            ...provided,
-            fontFamily: "var(--font-mono)",
-            color: "#a0a0a0",
-          }),
-        }}
-        isSearchable={false}
-        isClearable={true}
-        placeholder="Barva vlasů"
-      />
-      <Input type="number" name="height" placeholder="Výška" />
-      <FileInputContainer>
-        <FileInput
-          type="file"
-          name="image"
-          id="image"
-          placeholder="Fotka"
-          onChange={(e) => setFileName(e.currentTarget.files?.[0].name)}
-          accept="image/*"
-        />
-        <FileInputLabel htmlFor="image">
-          Vybrat
-          <UploadIcon />
-        </FileInputLabel>
-        <span>{fileName}</span>
-        <div onClick={() => handleRemoveFile()}>
-          <CancelIcon />
-        </div>
-      </FileInputContainer>
-      <FormButtons>
-        <SubmitButton type="submit" value="Vytvořit" />
-        <SubmitButton type="reset" value="Resetovat" />
-        <DashboardButton type="button" value="Zpět">
-          <Link href="/dashboard">Zpět</Link>
-        </DashboardButton>
-      </FormButtons>
-    </Form>
+    <FormContainer>
+      <Form onSubmit={handleSubmit}>
+        <h1>Přidat záznam</h1>
+        <FormColumns>
+          <FormColumn>
+            <Input type="text" name="firstName" required placeholder="Jméno" />
+            <Input type="text" name="email" placeholder="Email" />
+            <Input type="text" name="address" placeholder="Adresa" />
+            <Input type="number" name="height" placeholder="Výška" />
+            <Input type="text" name="education" placeholder="Vzdělání" />
+            <Select
+              options={GenderOptions}
+              name="gender"
+              styles={selectStyles}
+              isSearchable={false}
+              isClearable={true}
+              placeholder="Pohlaví"
+            />
+          </FormColumn>
+          <FormColumn>
+            <Input type="text" name="lastName" placeholder="Příjmení" />
+            <Input type="text" name="phone" placeholder="Telefon" />
+            <Select
+              options={RegionOptions}
+              name="region"
+              styles={selectStyles}
+              isSearchable={true}
+              isClearable={true}
+              placeholder="Kraj"
+            />
+            <Input
+              type="number"
+              name="age"
+              placeholder="Věk"
+              max="100"
+              min="18"
+            />
+            <Select
+              options={HairColorOptions}
+              name="hairColor"
+              styles={selectStyles}
+              isSearchable={false}
+              isClearable={true}
+              placeholder="Barva vlasů"
+            />
+            <FileInputContainer>
+              <FileInput
+                type="file"
+                name="image"
+                id="image"
+                placeholder="Fotka"
+                onChange={(e) => setFileName(e.currentTarget.files?.[0].name)}
+                accept="image/*"
+              />
+              <FileInputLabel htmlFor="image">
+                Vybrat
+                <UploadIcon />
+              </FileInputLabel>
+              <span>{fileName}</span>
+              <div onClick={() => handleRemoveFile()}>
+                <CancelIcon />
+              </div>
+            </FileInputContainer>
+          </FormColumn>
+        </FormColumns>
+        <FormButtons>
+          <FormButton type="submit">Vytvořit</FormButton>
+          <FormButton type="button" value="Zpět">
+            <Link href="/dashboard">Zpět</Link>
+          </FormButton>
+        </FormButtons>
+      </Form>
+    </FormContainer>
   )
 }

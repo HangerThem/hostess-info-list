@@ -1,5 +1,15 @@
 import styled from "styled-components"
 
+export const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+`
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -7,15 +17,32 @@ export const Form = styled.form`
   justify-content: center;
   height: 97vh;
   gap: 10px;
-  margin-top: 20px;
+  width: fit-content;
+`
+
+export const FormColumns = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+`
+
+export const FormColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 `
 
 export const FormButtons = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  width: 300px;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 10px;
 `
 
 export const Input = styled.input`
@@ -59,7 +86,7 @@ export const Input = styled.input`
   }
 `
 
-export const SubmitButton = styled.input`
+export const FormButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: 5px;

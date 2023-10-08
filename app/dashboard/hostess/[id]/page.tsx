@@ -15,6 +15,7 @@ import {
   SaveButton,
   CancelButton,
 } from "@/styles/hostessStyles"
+import { selectStyles } from "@/styles/selectStyles"
 import { useRouter } from "next/navigation"
 import { HostessImage } from "@/styles/hostessStyles"
 import CancelIcon from "@/icons/cancel"
@@ -22,6 +23,8 @@ import EditIcon from "@/icons/edit"
 import SaveIcon from "@/icons/save"
 import DeleteIcon from "@/icons/delete"
 import Link from "next/link"
+import Select from "react-select"
+import { HairColor, Region, Gender } from "@/lib/enums"
 
 export default function Page({ params }: any) {
   const [hostess, setHostess] = useState<Hostess>()
@@ -36,6 +39,27 @@ export default function Page({ params }: any) {
     setHostess(data)
     setLoading(false)
   }
+
+  const HairColorOptions: SelectOption[] = Object.values(HairColor).map(
+    (color) => {
+      return {
+        value: color,
+        label: color,
+      }
+    }
+  )
+  const RegionOptions: SelectOption[] = Object.values(Region).map((region) => {
+    return {
+      value: region,
+      label: region,
+    }
+  })
+  const GenderOptions: SelectOption[] = Object.values(Gender).map((gender) => {
+    return {
+      value: gender,
+      label: gender,
+    }
+  })
 
   useEffect(() => {
     fetchHostesses()
@@ -227,11 +251,13 @@ export default function Page({ params }: any) {
                 {!isEditing ? (
                   hostess.region
                 ) : (
-                  <input
-                    type="text"
+                  <Select
+                    options={RegionOptions}
                     name="region"
+                    styles={selectStyles}
+                    isSearchable={true}
+                    isClearable={true}
                     placeholder="Kraj"
-                    defaultValue={hostess.region}
                   />
                 )}
               </HostessDetailValue>
@@ -242,11 +268,13 @@ export default function Page({ params }: any) {
                 {!isEditing ? (
                   hostess.hairColor
                 ) : (
-                  <input
-                    type="text"
+                  <Select
+                    options={HairColorOptions}
                     name="hairColor"
+                    styles={selectStyles}
+                    isSearchable={false}
+                    isClearable={true}
                     placeholder="Barva vlasů"
-                    defaultValue={hostess.hairColor}
                   />
                 )}
               </HostessDetailValue>
@@ -262,6 +290,23 @@ export default function Page({ params }: any) {
                     name="height"
                     placeholder="Výška"
                     defaultValue={hostess.height}
+                  />
+                )}
+              </HostessDetailValue>
+            </HostessDetailRow>
+            <HostessDetailRow>
+              <HostessDetailLabel>Pohlaví:</HostessDetailLabel>
+              <HostessDetailValue>
+                {!isEditing ? (
+                  hostess.gender
+                ) : (
+                  <Select
+                    options={GenderOptions}
+                    name="gender"
+                    styles={selectStyles}
+                    isSearchable={false}
+                    isClearable={true}
+                    placeholder="Pohlaví"
                   />
                 )}
               </HostessDetailValue>
