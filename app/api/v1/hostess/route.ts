@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client"
 import { getTokenFromServer } from "@/lib/serverAuth"
 import { verifyToken } from "@/lib/token"
 
+const prisma = new PrismaClient()
+
 // API endpoint to retrieve all hostesses
 export async function GET(req: Request) {
   const token = getTokenFromServer()
@@ -17,7 +19,6 @@ export async function GET(req: Request) {
       headers: { "content-type": "application/json" },
     })
   }
-  const prisma = new PrismaClient()
   const hostesses: Hostess[] = await prisma.hostess.findMany()
   return new Response(JSON.stringify(hostesses), {
     status: 200,
