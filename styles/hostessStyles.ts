@@ -4,7 +4,6 @@ import Image from "next/image"
 export const HostessInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   position: absolute;
   top: calc(50%);

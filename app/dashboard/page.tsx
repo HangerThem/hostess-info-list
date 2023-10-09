@@ -24,7 +24,7 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(true)
   const [advancedSearch, setAdvancedSearch] = useState<boolean>(false)
   const [searchTerms, setSearchTerms] = useState<ISearchTerms>({
-    ageRange: [18, 100],
+    ageRange: [15, 100],
     heightRange: [130, 200],
     hairColor: [],
     region: [],
@@ -146,15 +146,19 @@ export default function Page() {
                     height <= searchTerms.heightRange[1]) ||
                   // Temporary fix for hostesses without height from import of CSV
                   height === 0
-                const isHairColorCorrect = searchTerms.hairColor.length
-                  ? searchTerms.hairColor.includes(hairColor)
-                  : true
+                const isHairColorCorrect =
+                  (searchTerms.hairColor.length
+                    ? searchTerms.hairColor.includes(hairColor)
+                    : // Temporary fix for hostesses without hairColor from import of CSV
+                      true) || hairColor === ""
                 const isAdressCorrect = searchTerms.city
                   ? address.toLowerCase().includes(searchTerms.city)
                   : true
-                const isRegionCorrect = searchTerms.region.length
-                  ? searchTerms.region.includes(region)
-                  : true
+                const isRegionCorrect =
+                  (searchTerms.region.length
+                    ? searchTerms.region.includes(region)
+                    : // Temporary fix for hostesses without region from import of CSV
+                      true) || region === ""
                 const isGenderCorrect = searchTerms.gender.length
                   ? searchTerms.gender.includes(gender)
                   : true

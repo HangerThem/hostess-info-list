@@ -6,13 +6,60 @@ interface IAgeRangeProps {
   limits: [number, number]
 }
 
+interface IAdvancedSearchProps {
+  show: boolean
+}
+
+export const AdvancedSearchContainer = styled.div<IAdvancedSearchProps>`
+  display: ${(props) => (props.show ? "flex" : "none")};
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #222;
+  width: 100%;
+`
+
+export const AdvancedSearchColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
+
+export const AdvancedSearchRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  & > div {
+    flex: 1;
+  }
+
+  input {
+    width: 100%;
+  }
+`
+
+export const SelectContainer = styled.div`
+  width: 100%;
+`
+
 export const RangeContainer = styled.div`
-  width: 200px;
+  p {
+    margin: 0;
+    text-align: center;
+  }
 `
 
 export const RangeSliderContainer = styled.div`
   position: relative;
-  width: 100%;
+  height: 25px;
 
   input[type="range"] {
     position: absolute;

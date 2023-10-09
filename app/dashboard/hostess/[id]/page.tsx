@@ -25,6 +25,12 @@ import DeleteIcon from "@/icons/delete"
 import Link from "next/link"
 import Select from "react-select"
 import { HairColor, Region, Gender } from "@/lib/enums"
+import {
+  FileInput,
+  FileInputContainer,
+  FileInputLabel,
+} from "@/styles/formStyles"
+import UploadIcon from "@/icons/upload"
 
 export default function Page({ params }: any) {
   const [hostess, setHostess] = useState<Hostess>()
@@ -77,11 +83,7 @@ export default function Page({ params }: any) {
         data[key] = value
       }
     })
-    if (
-      image !== undefined &&
-      image?.name.replace(/[^a-zA-Z0-9]/g, "") !==
-        hostess?.image.split("/")[4].replace(/[^a-zA-Z0-9]/g, "")
-    ) {
+    if (image !== undefined) {
       const formDataImage = new FormData()
       formDataImage.set("image", image)
       await fetch("/api/v1/upload", {
@@ -123,8 +125,8 @@ export default function Page({ params }: any) {
 
   return (
     <HostessInfoContainer>
-      <Link href="/dashboard" style={{ color: "#000" }}>
-        Zpět
+      <Link href="/dashboard" style={{ color: "#000", marginBottom: "10px" }}>
+        ↩ Zpět
       </Link>
       <form onSubmit={(e) => handleSubmit(e)}>
         <HostessName>
@@ -156,18 +158,29 @@ export default function Page({ params }: any) {
               alt={hostess.firstName + " " + hostess.lastName}
             />
           ) : (
-            <input
-              type="file"
-              name="image"
-              placeholder="Fotka"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.currentTarget.files?.[0]
-                if (file) {
-                  setImage(file)
-                }
-              }}
-            />
+            <FileInputContainer>
+              <FileInput
+                type="file"
+                name="image"
+                id="image"
+                placeholder="Fotka"
+                onChange={(e) => {
+                  const file = e.currentTarget.files?.[0]
+                  if (file) {
+                    setImage(file)
+                  }
+                }}
+                accept="image/*"
+              />
+              <FileInputLabel htmlFor="image">
+                Vybrat
+                <UploadIcon />
+              </FileInputLabel>
+              <span>{image?.name}</span>
+              <div onClick={() => setImage(undefined)}>
+                <CancelIcon />
+              </div>
+            </FileInputContainer>
           )}
           <HostessDetailsTable>
             <HostessDetailRow>

@@ -6,12 +6,14 @@ export const HostessContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 200px;
+  width: 100%;
 `
 
 export const HostessImage = styled(Image)`
   object-fit: cover;
   background-color: white;
+  width: 100%;
+  height: 100%;
 `
 
 export const HostessName = styled.p`
@@ -27,7 +29,6 @@ export const DashboardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
   padding: 20px;
   background-color: #222;
 
@@ -43,11 +44,12 @@ export const DashboardHeader = styled.div`
 `
 
 export const HostessesContainer = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 20px;
   list-style: none;
-  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `
 
 export const DashboardButton = styled.button`

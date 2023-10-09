@@ -4,11 +4,15 @@ import { ISearchTerms } from "@/interface/ISearchTerms"
 import { useState } from "react"
 import { Region, HairColor, Gender } from "@/lib/enums"
 import {
+  AdvancedSearchContainer,
+  AdvancedSearchColumn,
   RangeContainer,
+  AdvancedSearchRow,
   RangeProgress,
   RangeSliderContainer,
+  SelectContainer,
 } from "./advancedSearchStyles"
-import { SearchBar, SearchBarContainer } from "./searchStyles"
+import { Input } from "@/styles/formStyles"
 import Select from "react-select"
 import { selectStyles } from "@/styles/selectStyles"
 
@@ -18,7 +22,7 @@ interface AdvancedSearchProps {
   setSearchTerms: (e: any) => void
 }
 
-const AGE_RANGE = [18, 100]
+const AGE_RANGE = [15, 100]
 const HEIGHT_RANGE = [130, 200]
 
 const AdvancedSearch = ({
@@ -152,121 +156,131 @@ const AdvancedSearch = ({
   }
 
   return (
-    <div style={{ display: advancedSearch ? "block" : "none" }}>
-      <h1>Advanced Search</h1>
-      <RangeContainer>
-        <h2>Věk</h2>
-        <p>
-          {searchTerms.ageRange[0]} - {searchTerms.ageRange[1]}
-        </p>
-        <RangeSliderContainer>
-          <RangeProgress
-            min={searchTerms.ageRange[0]}
-            max={searchTerms.ageRange[1]}
-            limits={[AGE_RANGE[0], AGE_RANGE[1]]}
+    <AdvancedSearchContainer show={advancedSearch}>
+      <AdvancedSearchRow>
+        <div>
+          <h2>Město:</h2>
+          <Input placeholder="Město" onChange={handleCityChange} />
+        </div>
+        <RangeContainer>
+          <h2>Věk</h2>
+          <p>
+            {searchTerms.ageRange[0]} - {searchTerms.ageRange[1]}
+          </p>
+          <RangeSliderContainer>
+            <RangeProgress
+              min={searchTerms.ageRange[0]}
+              max={searchTerms.ageRange[1]}
+              limits={[AGE_RANGE[0], AGE_RANGE[1]]}
+            />
+            <input
+              type="range"
+              name="minAge"
+              min={AGE_RANGE[0]}
+              max={AGE_RANGE[1]}
+              step="1"
+              value={searchTerms.ageRange[0]}
+              onChange={handleMinAgeChange}
+            />
+            <input
+              type="range"
+              name="maxAge"
+              min={AGE_RANGE[0]}
+              max={AGE_RANGE[1]}
+              step="1"
+              value={searchTerms.ageRange[1]}
+              onChange={handleMaxAgeChange}
+            />
+          </RangeSliderContainer>
+        </RangeContainer>
+        <RangeContainer>
+          <h2>Výška</h2>
+          <p>
+            {searchTerms.heightRange[0]} - {searchTerms.heightRange[1]}
+          </p>
+          <RangeSliderContainer>
+            <RangeProgress
+              min={searchTerms.heightRange[0]}
+              max={searchTerms.heightRange[1]}
+              limits={[HEIGHT_RANGE[0], HEIGHT_RANGE[1]]}
+            />
+            <input
+              type="range"
+              name="minHeight"
+              min={HEIGHT_RANGE[0]}
+              max={HEIGHT_RANGE[1]}
+              step="1"
+              value={searchTerms.heightRange[0]}
+              onChange={handleMinHeightChange}
+            />
+            <input
+              type="range"
+              name="maxHeight"
+              min={HEIGHT_RANGE[0]}
+              max={HEIGHT_RANGE[1]}
+              step="1"
+              value={searchTerms.heightRange[1]}
+              onChange={handleMaxHeightChange}
+            />
+          </RangeSliderContainer>
+        </RangeContainer>
+      </AdvancedSearchRow>
+      <AdvancedSearchColumn>
+        <SelectContainer>
+          <h2>Barva vlasů</h2>
+          <Select
+            options={hairColorOptions}
+            name="hairColor"
+            isMulti={true}
+            onChange={(e: any) => {
+              handleHairColorChange(e)
+            }}
+            styles={selectStyles}
+            isSearchable={true}
+            isClearable={true}
+            placeholder="Barva vlasů"
+            menuPosition="fixed"
+            menuPlacement="auto"
+            closeMenuOnSelect={false}
           />
-          <input
-            type="range"
-            name="minAge"
-            min={AGE_RANGE[0]}
-            max={AGE_RANGE[1]}
-            step="1"
-            value={searchTerms.ageRange[0]}
-            onChange={handleMinAgeChange}
+        </SelectContainer>
+        <SelectContainer>
+          <h2>Kraj</h2>
+          <Select
+            options={regionOptions}
+            name="region"
+            isMulti={true}
+            onChange={(e: any) => {
+              handleRegionChange(e)
+            }}
+            styles={selectStyles}
+            isSearchable={true}
+            isClearable={true}
+            placeholder="Kraj"
+            menuPosition="fixed"
+            menuPlacement="auto"
+            closeMenuOnSelect={false}
           />
-          <input
-            type="range"
-            name="maxAge"
-            min={AGE_RANGE[0]}
-            max={AGE_RANGE[1]}
-            step="1"
-            value={searchTerms.ageRange[1]}
-            onChange={handleMaxAgeChange}
+        </SelectContainer>
+        <SelectContainer>
+          <h2>Pohlaví:</h2>
+          <Select
+            options={genderOptions}
+            name="gender"
+            isMulti={true}
+            onChange={(e: any) => {
+              handleGenderChange(e)
+            }}
+            styles={selectStyles}
+            isClearable={true}
+            placeholder="Pohlaví"
+            menuPosition="fixed"
+            menuPlacement="auto"
+            closeMenuOnSelect={false}
           />
-        </RangeSliderContainer>
-      </RangeContainer>
-      <RangeContainer>
-        <h2>Výška</h2>
-        <p>
-          {searchTerms.heightRange[0]} - {searchTerms.heightRange[1]}
-        </p>
-        <RangeSliderContainer>
-          <RangeProgress
-            min={searchTerms.heightRange[0]}
-            max={searchTerms.heightRange[1]}
-            limits={[HEIGHT_RANGE[0], HEIGHT_RANGE[1]]}
-          />
-          <input
-            type="range"
-            name="minHeight"
-            min={HEIGHT_RANGE[0]}
-            max={HEIGHT_RANGE[1]}
-            step="1"
-            value={searchTerms.heightRange[0]}
-            onChange={handleMinHeightChange}
-          />
-          <input
-            type="range"
-            name="maxHeight"
-            min={HEIGHT_RANGE[0]}
-            max={HEIGHT_RANGE[1]}
-            step="1"
-            value={searchTerms.heightRange[1]}
-            onChange={handleMaxHeightChange}
-          />
-        </RangeSliderContainer>
-      </RangeContainer>
-      <div>
-        <h2>Barva vlasů</h2>
-        <Select
-          options={hairColorOptions}
-          name="hairColor"
-          isMulti={true}
-          onChange={(e: any) => {
-            handleHairColorChange(e)
-          }}
-          styles={selectStyles}
-          isSearchable={false}
-          isClearable={true}
-          placeholder="Barva vlasů"
-        />
-      </div>
-      <div>
-        <h2>Kraj</h2>
-        <Select
-          options={regionOptions}
-          name="region"
-          isMulti={true}
-          onChange={(e: any) => {
-            handleRegionChange(e)
-          }}
-          styles={selectStyles}
-          isSearchable={true}
-          isClearable={true}
-          placeholder="Kraj"
-        />
-      </div>
-      <div>
-        <h2>Pohlaví:</h2>
-        <Select
-          options={genderOptions}
-          name="gender"
-          isMulti={true}
-          onChange={(e: any) => {
-            handleGenderChange(e)
-          }}
-          styles={selectStyles}
-          isSearchable={false}
-          isClearable={true}
-          placeholder="Pohlaví"
-        />
-      </div>
-      <div>
-        <SearchBarContainer>
-          <SearchBar placeholder="Město" onChange={handleCityChange} />
-        </SearchBarContainer>
-      </div>
-    </div>
+        </SelectContainer>
+      </AdvancedSearchColumn>
+    </AdvancedSearchContainer>
   )
 }
 

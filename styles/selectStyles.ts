@@ -1,11 +1,14 @@
 export const selectStyles = {
+  container: (provided: any) => ({
+    ...provided,
+    width: "100%",
+  }),
   control: (provided: any) => ({
     ...provided,
     border: "none",
     borderRadius: "5px",
     fontSize: "16px",
-    width: "300px",
-    height: "40px",
+    width: "100%",
     fontFamily: "var(--font-mono)",
     backgroundColor: "#3e3e3e",
     color: "#fff",

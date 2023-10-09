@@ -50,11 +50,11 @@ export const Input = styled.input`
   border: none;
   border-radius: 5px;
   font-size: 16px;
-  width: 100%;
-  max-width: 300px;
+  width: 300px;
   height: 40px;
   background-color: #3e3e3e;
   font-family: var(--font-mono);
+  color: #fff;
 
   &::placeholder {
     color: #fff;
