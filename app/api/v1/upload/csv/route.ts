@@ -60,8 +60,6 @@ export async function POST(req: Request) {
             where: { id: existingHostess.id },
             data: updateData,
           })
-
-          console.log("Hostess updated:", existingHostess.email)
         } else {
           const hostessData: Hostess = {
             firstName: cleanData[0],
