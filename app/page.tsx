@@ -12,7 +12,7 @@ export default function Home() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData)
-    fetch("/api/v1/auth/login", {
+    fetch("/api/v1/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
     })
