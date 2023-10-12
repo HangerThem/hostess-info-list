@@ -101,6 +101,11 @@ export const FormButton = styled.button`
   &:hover {
     background-color: #0060df;
   }
+
+  &:disabled {
+    background-color: #3e3e3e;
+    cursor: not-allowed;
+  }
 `
 
 export const FileInputContainer = styled.div`

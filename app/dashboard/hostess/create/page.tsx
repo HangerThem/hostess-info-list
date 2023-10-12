@@ -28,6 +28,7 @@ export default function Page() {
   )
   const [uploadCSV, setUploadCSV] = useState<boolean>(false)
   const [CSVName, setCSVName] = useState<string | undefined>("Soubor nenahrán")
+  const [loading, setLoading] = useState<boolean>(false)
 
   const HairColorOptions: SelectOption[] = Object.values(HairColor).map(
     (color) => {
@@ -56,6 +57,7 @@ export default function Page() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     const formData = new FormData(e.currentTarget)
     if (uploadCSV) {
       const csvFile = (
@@ -73,14 +75,15 @@ export default function Page() {
           console.log("CSV uploaded successfully")
         } else {
           console.error("CSV upload failed")
+          setLoading(false)
           return
         }
       } catch (error) {
         console.error("Error:", error)
+        setLoading(false)
         return
       }
       router.push("/dashboard")
-      return
     }
     const formDataImage = new FormData()
     let id: string
@@ -125,10 +128,12 @@ export default function Page() {
         console.log("Hostess created successfully")
       } else {
         console.error("Failed to create hostess")
+        setLoading(false)
         return
       }
     } catch (error) {
       console.error("Error:", error)
+      setLoading(false)
       return
     }
     router.push(`/dashboard/hostess/${id}`)
@@ -177,7 +182,9 @@ export default function Page() {
             </FormColumn>
           </FormColumns>
           <FormButtons>
-            <FormButton type="submit">Nahrát</FormButton>
+            <FormButton type="submit" disabled={loading}>
+              Nahrát
+            </FormButton>
             <FormButton type="button" value="Zpět">
               <Link href="/dashboard">Zpět</Link>
             </FormButton>
@@ -257,7 +264,9 @@ export default function Page() {
           </FormColumn>
         </FormColumns>
         <FormButtons>
-          <FormButton type="submit">Vytvořit</FormButton>
+          <FormButton type="submit" disabled={loading}>
+            Vytvořit
+          </FormButton>
           <FormButton type="button" value="Zpět">
             <Link href="/dashboard">Zpět</Link>
           </FormButton>

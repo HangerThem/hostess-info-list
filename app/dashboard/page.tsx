@@ -17,6 +17,7 @@ import LogoutIcon from "@/icons/logout"
 import Search from "@/components/search"
 import AdvancedSearch from "@/components/advancedSearch"
 import { ISearchTerms } from "@/interface/ISearchTerms"
+import Image from "next/image"
 
 export default function Page() {
   const [hostesses, setHostesses] = useState<Hostess[]>([])
@@ -72,7 +73,13 @@ export default function Page() {
   return (
     <div>
       <DashboardHeader>
-        <h1>HIL - Dashboard</h1>
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width="200"
+          height="50"
+          style={{ width: "auto" }}
+        />
         <div>
           <Search
             searchTerm={searchTerm}
